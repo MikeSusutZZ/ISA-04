@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // Headers allowed
     let filePath = '.' + req.url;
     if (filePath == './') {
-        filePath = './index.html'; // Specify your landing page filename
+        filePath = './html/index.html'; // Specify your landing page filename
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
