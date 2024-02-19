@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Store Definition</title>
 </head>
 <body>
-    <h2>Store a New Definition</h2>
-    <label for="word">Word:</label>
-    <input type="text" id="word">
-    <br>
-    <label for="definition">Definition:</label>
-    <textarea id="definition"></textarea>
-    <br>
-    <button onclick="storeDefinition()">Submit</button>
-    <div id="response"></div>
+    <h1>Add a New Definition</h1>
+    <form id="definitionForm">
+        <input type="text" id="word" placeholder="Word" required>
+        <textarea id="definition" placeholder="Definition" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
 
-    <script src="dictionary.js"></script>
+    <script src="store.js"></script>
 </body>
 </html>

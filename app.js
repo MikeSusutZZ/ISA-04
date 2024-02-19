@@ -1,56 +1,45 @@
 const http = require('http');
-const url = require('url');
-const querystring = require('querystring');
-
-let requestCount = 0;
-const dictionary = {};
+const fs = require('fs');
+const path = require('path');
 
 const server = http.createServer((req, res) => {
-    const parsedUrl = url.parse(req.url);
-    const query = querystring.parse(parsedUrl.query);
-    const path = parsedUrl.pathname;
-    let body = '';
-
-    requestCount++;
-
-    res.setHeader('Content-Type', 'application/json');
-
-    if (path === '/api/definitions' && req.method === 'GET') {
-        if (query.word && dictionary[query.word]) {
-            res.writeHead(200);
-            res.end(JSON.stringify({ requestCount, definition: dictionary[query.word] }));
-        } else {
-            res.writeHead(404);
-            res.end(JSON.stringify({ requestCount, message: `Request# ${requestCount}, word '${query.word}' not found!` }));
-        }
-    } else if (path === '/api/definitions' && req.method === 'POST') {
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-
-        req.on('end', () => {
-            const { word, definition } = JSON.parse(body);
-
-            if (!word || !definition) {
-                res.writeHead(400);
-                res.end(JSON.stringify({ requestCount, message: 'Both word and definition are required.' }));
-                return;
-            }
-
-            if (dictionary[word]) {
-                res.writeHead(409);
-                res.end(JSON.stringify({ requestCount, message: `Warning! '${word}' already exists.` }));
-            } else {
-                dictionary[word] = definition;
-                res.writeHead(201);
-                res.end(JSON.stringify({ requestCount, message: `New entry recorded: "${word} : ${definition}"` }));
-            }
-        });
-    } else {
-        res.writeHead(404);
-        res.end(JSON.stringify({ requestCount, message: 'Not Found' }));
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow any domain
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // Allowed methods
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // Headers allowed
+    let filePath = '.' + req.url;
+    if (filePath == './') {
+        filePath = './index.html'; // Specify your landing page filename
     }
+
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        // Add more MIME types as needed
+    };
+
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+    fs.readFile(filePath, (error, content) => {
+        if (error) {
+            if(error.code == 'ENOENT') {
+                fs.readFile('./404.html', (error, content) => { // Optional: Provide a 404 page
+                    res.writeHead(404, { 'Content-Type': 'text/html' });
+                    res.end(content, 'utf-8');
+                });
+            } else {
+                res.writeHead(500);
+                res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+            }
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
+    });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});
