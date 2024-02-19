@@ -7,12 +7,13 @@ document.getElementById('definitionForm').addEventListener('submit', function(e)
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: JSON.stringify({ word, definition }),
     })
     .then(response => response.json())
     .then(data => {
-        alert(`Request #${data.requestNumber}, ${data.message}`);
+        alert(`${data.error}`);
     })
     .catch(error => console.error('Error:', error));
 });
