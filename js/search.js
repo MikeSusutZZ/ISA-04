@@ -1,4 +1,4 @@
-import strings from '../lang/en/strings.js';
+//import strings from '../lang/en/strings.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
