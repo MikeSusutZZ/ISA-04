@@ -1,5 +1,5 @@
 //import strings from '../lang/en/strings.js';
-
+console.log("search loaded")
 
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;

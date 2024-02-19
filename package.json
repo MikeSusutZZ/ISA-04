@@ -1,11 +1,19 @@
 {
   "name": "isa-04",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeSusutZZ/ISA-04.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MikeSusutZZ/ISA-04/issues"
+  },
+  "homepage": "https://github.com/MikeSusutZZ/ISA-04#readme",
+  "description": ""
 }

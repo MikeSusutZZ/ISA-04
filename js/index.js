@@ -1,6 +1,6 @@
 //ALL FILES IN THIS PROJECT ARE CHAT GPT ASSISTED
 //import strings from '../lang/en/strings.js';
-
+console.log("index loaded")
 
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
